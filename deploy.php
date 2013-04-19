@@ -32,7 +32,7 @@ define('REMOTE_REPOSITORY', 'https://github.com/markomarkovic/simple-php-git-dep
  *
  * @var string
  */
-if (!isset($_GET['branch'])) {
+if (isset($_GET['branch'])) {
   define('BRANCH', $_GET['branch']);
 } else {
   define('BRANCH', 'master');
