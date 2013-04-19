@@ -32,7 +32,11 @@ define('REMOTE_REPOSITORY', 'https://github.com/markomarkovic/simple-php-git-dep
  *
  * @var string
  */
-define('BRANCH', 'master');
+if (!isset($_GET['branch'])) {
+  define('BRANCH', $_GET['branch']);
+} else {
+  define('BRANCH', 'master');
+}
 
 /**
  * This is where the code resides on the local machine.
@@ -122,6 +126,7 @@ if (SECRET_ACCESS_TOKEN === 'BetterChangeMeNowOrSufferTheConsequences') {
 	die("<h2>You're suffering the consequences!<br>Change the SECRET_ACCESS_TOKEN from it's default value!</h2>");
 }
 ?>
+
 <pre>
 
 Checking the environment ...
@@ -159,20 +164,21 @@ $commands = array();
 
 // Clone the repository into the TMP_DIR
 $commands[] = sprintf(
-	'%s clone --depth=1 %s %s'
-	, $binaries['git']
-	, REMOTE_REPOSITORY
-	, TMP_DIR
+  '%s clone -b %s --depth=1 %s %s'
+  , $binaries['git']
+  , BRANCH
+  , REMOTE_REPOSITORY
+  , TMP_DIR
 );
 
 // Checkout the BRANCH
-$commands[] = sprintf(
-	'%s --git-dir="%s.git" --work-tree="%s" checkout %s'
-	, $binaries['git']
-	, TMP_DIR
-	, TMP_DIR
-	, BRANCH
-);
+//$commands[] = sprintf(
+//	'%s --git-dir="%s.git" --work-tree="%s" checkout %s'
+//	, $binaries['git']
+//	, TMP_DIR
+//	, TMP_DIR
+//	, BRANCH
+//);
 
 // Update the submodules
 $commands[] = sprintf(
